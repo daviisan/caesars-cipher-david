@@ -26,6 +26,15 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
+    
+    // Use the JUnit API at test compile-time and the JUnit engine at runtime.
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+}
+
+// Configure the test task(s) to use JUnit Platform in a Kotlin-safe way.
+tasks.withType<org.gradle.api.tasks.testing.Test> {
+    useJUnitPlatform()
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -33,9 +42,4 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
-}
-
-tasks.named<Test>("test") {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
 }
